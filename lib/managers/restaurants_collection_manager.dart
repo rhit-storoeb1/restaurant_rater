@@ -1,0 +1,1 @@
+//manage the list of restaurants. Should be fairly boilerplate
