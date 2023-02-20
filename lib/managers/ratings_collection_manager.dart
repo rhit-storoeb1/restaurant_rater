@@ -1,1 +1,0 @@
-//manage the list of ratings shown on a Restaurant ratings list page

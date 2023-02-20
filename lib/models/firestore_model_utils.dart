@@ -24,6 +24,11 @@ class FirestoreModelUtils {
           ? documentSnapshot.get(fieldName)
           : 0;
 
+  static double getDoubleField(DocumentSnapshot documentSnapshot, String fieldName) =>
+      containsField(documentSnapshot, fieldName)
+          ? documentSnapshot.get(fieldName)
+          : 0.0;
+
   static bool getBoolField(
           DocumentSnapshot documentSnapshot, String fieldName) =>
       containsField(documentSnapshot, fieldName)
