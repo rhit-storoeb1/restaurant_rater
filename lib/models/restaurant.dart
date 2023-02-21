@@ -26,7 +26,8 @@ class Restaurant {
   String name;
   String address;
   String category;
-  List<Review> reviews;
+  // List<Review> reviews;
+  List reviews;
   double averageRating;
   //doesn't need lastTouched, authorUid
 
@@ -40,14 +41,17 @@ class Restaurant {
   });
 
   Restaurant.from(DocumentSnapshot doc)
-    : this(
-      documentId: doc.id,
-      name: FirestoreModelUtils.getStringField(doc, Restaurants_name),
-      address: FirestoreModelUtils.getStringField(doc, Restaurants_address),
-      category: FirestoreModelUtils.getStringField(doc, Restaurants_category),
-      reviews: doc.get(Restaurants_reviewsList),
-      averageRating: FirestoreModelUtils.getDoubleField(doc, Restaurants_averageRating),
-    );
+      : this(
+          documentId: doc.id,
+          name: FirestoreModelUtils.getStringField(doc, Restaurants_name),
+          address: FirestoreModelUtils.getStringField(doc, Restaurants_address),
+          category:
+              FirestoreModelUtils.getStringField(doc, Restaurants_category),
+          reviews:
+              FirestoreModelUtils.getArrayField(doc, Restaurants_reviewsList),
+          averageRating: FirestoreModelUtils.getDoubleField(
+              doc, Restaurants_averageRating),
+        );
 
   Map<String, Object?> toMap() {
     return {
@@ -60,8 +64,7 @@ class Restaurant {
   }
 
   @override
-  String toString(){
+  String toString() {
     return "$documentId: $name at $address - $category - has average rating $averageRating";
   }
-
 }

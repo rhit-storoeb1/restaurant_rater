@@ -24,7 +24,8 @@ class FirestoreModelUtils {
           ? documentSnapshot.get(fieldName)
           : 0;
 
-  static double getDoubleField(DocumentSnapshot documentSnapshot, String fieldName) =>
+  static double getDoubleField(
+          DocumentSnapshot documentSnapshot, String fieldName) =>
       containsField(documentSnapshot, fieldName)
           ? documentSnapshot.get(fieldName)
           : 0.0;
@@ -46,6 +47,12 @@ class FirestoreModelUtils {
       containsField(documentSnapshot, fieldName)
           ? documentSnapshot.get(fieldName)
           : Timestamp.now();
+
+  static List getArrayField(
+          DocumentSnapshot documentSnapshot, String fieldName) =>
+      containsField(documentSnapshot, fieldName)
+          ? documentSnapshot.get(fieldName)
+          : null;
 
   static bool containsField(
           DocumentSnapshot documentSnapshot, String fieldName) =>
