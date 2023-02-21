@@ -14,7 +14,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:restaurant_rater/models/review.dart';
 import 'firestore_model_utils.dart';
 
-const String RestaurantsCollectionPath = "restaurants";
+const String RestaurantsCollectionPath = "Restaurants";
 const String Restaurants_name = "name";
 const String Restaurants_address = "address";
 const String Restaurants_category = "category";

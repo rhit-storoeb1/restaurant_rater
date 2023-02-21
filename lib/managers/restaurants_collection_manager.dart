@@ -5,14 +5,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:restaurant_rater/managers/reviews_collection_manager.dart';
 import '../models/restaurant.dart';
 
-class MovieQuotesCollectionManager {
+class RestaurantsCollectionManager {
   List<Restaurant> restaurants = [];
   final CollectionReference _ref;
 
-  static final MovieQuotesCollectionManager instance =
-      MovieQuotesCollectionManager._privateConstructor();
+  static final RestaurantsCollectionManager instance =
+      RestaurantsCollectionManager._privateConstructor();
 
-  MovieQuotesCollectionManager._privateConstructor()
+  RestaurantsCollectionManager._privateConstructor()
       : _ref = FirebaseFirestore.instance.collection(RestaurantsCollectionPath);
 
   //since we don't have a lastTouched for restaurants, sort by name
