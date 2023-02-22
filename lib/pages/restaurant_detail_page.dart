@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:restaurant_rater/components/review_list_componenet.dart';
+import 'package:restaurant_rater/components/review_list_component.dart';
 import 'package:restaurant_rater/managers/reviews_collection_manager.dart';
 
 import '../managers/auth_manager.dart';
@@ -135,9 +135,10 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                   fontFamily: "Caveat"),
             ),
             ReviewList(
-                restName:
-                    RestaurantDocumentManager.instance.latestRestaurant?.name ??
-                        ""),
+              query: ReviewsCollectionManager.instance.reviewsForRestaurant(
+                  RestaurantDocumentManager.instance.latestRestaurant?.name ??
+                      ""),
+            ),
           ],
         ),
       ),
