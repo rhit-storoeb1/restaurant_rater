@@ -10,14 +10,22 @@ import 'auth_manager.dart';
 
 //this shouldn't be a singleton since we have multiple of these to deal with
 
-class ReviewsCollectionManager{
+class ReviewsCollectionManager {
   List<Review> latestReviews = [];
-  late CollectionReference _ref;
+  final CollectionReference _ref;
 
-  ReviewsCollectionManager(String restaurantDocumentId){
-    _ref = FirebaseFirestore.instance.collection(RestaurantsCollectionPath)
-      .doc(restaurantDocumentId).collection(ReviewCollectionPath);
-  }
+  // ReviewsCollectionManager(String restaurantDocumentId) {
+  //   _ref = FirebaseFirestore.instance
+  //       .collection(RestaurantsCollectionPath)
+  //       .doc(restaurantDocumentId)
+  //       .collection(ReviewCollectionPath);
+  // }
+
+  ReviewsCollectionManager._privateConstructor()
+      : _ref = FirebaseFirestore.instance.collection(ReviewCollectionPath);
+
+  static final ReviewsCollectionManager instance =
+      ReviewsCollectionManager._privateConstructor();
 
   //todo: there is no isFilteredForMine here. We could add different filters
   StreamSubscription startListening(Function() observer) {
@@ -33,31 +41,36 @@ class ReviewsCollectionManager{
   }
 
   //add a new Review to the Restaurant
-  Future<void> add({
-    required int rating,
-    required String comment
-  }) {
+  Future<void> add(
+      {required double rating,
+      required String comment,
+      required String restName}) {
     return _ref
-      .add({
-        Review_rating: rating,
-        Review_comment: comment,
-        Review_lastTouched: Timestamp.now(),
-        Review_authorUid: AuthManager.instance.uid
-      })
-      .then((DocumentReference docRef) => {
-        print("Review added!")
-        //TODO: call the method to update the average rating of the restaurant here
-      })
-      .catchError((error) => print("Failed to add review: $error"));
+        .add({
+          Review_rating: rating,
+          Review_comment: comment,
+          Review_restaurant: restName,
+          Review_lastTouched: Timestamp.now(),
+          Review_authorUid: AuthManager.instance.uid
+        })
+        .then((DocumentReference docRef) => {
+              print("Review added!")
+              //TODO: call the method to update the average rating of the restaurant here
+            })
+        .catchError((error) => print("Failed to add review: $error"));
   }
 
   //get all reviews for this restaurant
   Query<Review> get allReviewsQuery => _ref
-    .orderBy(Review_lastTouched, descending: true)
-    .withConverter<Review>(
-      fromFirestore: (snapshot, _) => Review.from(snapshot),
-      toFirestore: (review, _) => review.toMap(),
-    );
-  
+          // .orderBy(Review_lastTouched, descending: true)
+          .withConverter<Review>(
+        fromFirestore: (snapshot, _) => Review.from(snapshot),
+        toFirestore: (review, _) => review.toMap(),
+      );
+
+  Query<Review> reviewsForRestaurant(restName) {
+    return allReviewsQuery.where(Review_restaurant, isEqualTo: restName);
+  }
+
   //note: no myReviewsQuery is needed for now
 }
