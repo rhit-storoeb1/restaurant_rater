@@ -45,7 +45,7 @@ class RestaurantsCollectionManager {
         })
         .then((DocumentReference docRef) =>
             print("Restaurant added with id ${docRef.id}"))
-        .catchError((error) => print("Failed to add movie quote: $error"));
+        .catchError((error) => print("Failed to add restaurant: $error"));
   }
 
   //sort restaurants by name

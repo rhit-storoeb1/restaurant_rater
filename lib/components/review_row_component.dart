@@ -7,8 +7,14 @@ import '../models/review.dart';
 class ReviewRowItem extends StatelessWidget {
   final Review r;
   final Function() onTap;
+  final bool showRestName;
 
-  const ReviewRowItem({required this.r, required this.onTap, super.key});
+  const ReviewRowItem({
+    required this.r,
+    required this.onTap,
+    required this.showRestName,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,9 @@ class ReviewRowItem extends StatelessWidget {
           child: ListTile(
             leading: const Icon(Icons.star),
             title: Text(
-              r.rating.toString(),
+              showRestName
+                  ? '${r.restName} - ${r.rating}'
+                  : r.rating.toString(),
               overflow: TextOverflow.ellipsis,
             ),
             subtitle: Text(

@@ -12,7 +12,6 @@ class LoginPage extends StatefulWidget {
   State<LoginPage> createState() => _LoginPageState();
 }
 
-//from movie_quotes
 class LoginButton extends StatelessWidget {
   final String title;
   final Function() callback;
@@ -37,23 +36,22 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           const Expanded(
             child: Center(
-              child: Text("RoseRestaurantRater", style: TextStyle(fontSize: 50))
-            ),
+                child: Text("RoseRestaurantRater",
+                    style: TextStyle(fontSize: 50))),
           ),
           LoginButton(
-            title: "Log in",
-            callback: () {
-              Navigator.push(context, 
-              MaterialPageRoute(builder: (BuildContext context) {
-                return const EmailLoginPage(isNewUser: false);
-              }));
-            }
-          ),
+              title: "Log in",
+              callback: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return const EmailLoginPage(isNewUser: false);
+                }));
+              }),
           LoginButton(
             title: "Sign Up",
             callback: () {
-              Navigator.push(context, 
-              MaterialPageRoute(builder: (BuildContext context) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
                 return const EmailLoginPage(isNewUser: true);
               }));
             },

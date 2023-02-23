@@ -15,9 +15,6 @@ class ReviewDetailPage extends StatefulWidget {
 }
 
 class _ReviewDetailPageState extends State<ReviewDetailPage> {
-  final quoteTextController = TextEditingController();
-  final movieTextController = TextEditingController();
-
   StreamSubscription? reviewSubscription;
 
   @override
@@ -34,8 +31,6 @@ class _ReviewDetailPageState extends State<ReviewDetailPage> {
 
   @override
   void dispose() {
-    quoteTextController.dispose();
-    movieTextController.dispose();
     ReviewDocumentManager.instance.stopListening(reviewSubscription);
     super.dispose();
   }

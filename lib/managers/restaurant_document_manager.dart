@@ -41,7 +41,7 @@ class RestaurantDocumentManager {
       Restaurants_address: address,
       Restaurants_averageRating: averageRating,
       Restaurants_category: category,
-    }).catchError((error) => print("Failed to update the movie quote: $error"));
+    }).catchError((error) => print("Failed to update the restaurant: $error"));
   }
 
   Future<void> delete() {

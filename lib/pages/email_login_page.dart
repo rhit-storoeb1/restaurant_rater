@@ -5,7 +5,6 @@ import 'package:email_validator/email_validator.dart';
 
 import '../managers/auth_manager.dart';
 
-//pulled from moviequotes
 class EmailLoginPage extends StatefulWidget {
   final bool isNewUser;
   const EmailLoginPage({super.key, required this.isNewUser});
@@ -20,7 +19,7 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
   UniqueKey? _loginObserverKey;
 
   @override
-  void initState(){
+  void initState() {
     _loginObserverKey = AuthManager.instance.addLoginObserver(() {
       Navigator.of(context).popUntil((route) => route.isFirst);
     });
@@ -39,8 +38,7 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-              widget.isNewUser ? "Create a user" : "Log in"),
+          title: Text(widget.isNewUser ? "Create a user" : "Log in"),
         ),
         body: Form(
           key: _formKey,
@@ -52,10 +50,10 @@ class _EmailLoginPageState extends State<EmailLoginPage> {
                 child: TextFormField(
                     controller: emailTextController,
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.email),
-                      border: OutlineInputBorder(),
-                      labelText: "Email",
-                      hintText: "Must be a valid email format"),
+                        prefixIcon: Icon(Icons.email),
+                        border: OutlineInputBorder(),
+                        labelText: "Email",
+                        hintText: "Must be a valid email format"),
                     validator: (String? value) {
                       if (value == null ||
                           value.isEmpty ||

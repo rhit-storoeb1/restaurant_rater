@@ -9,6 +9,7 @@ import '../managers/auth_manager.dart';
 import '../managers/restaurant_document_manager.dart';
 import '../managers/restaurants_collection_manager.dart';
 import '../models/review.dart';
+import 'login_page.dart';
 
 class RestaurantDetailPage extends StatefulWidget {
   final String documentId;
@@ -28,13 +29,13 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
 
   bool ratingInputError = false;
 
-  StreamSubscription? movieQuoteSubscription;
+  StreamSubscription? restaurantSubscription;
 
   @override
   void initState() {
     super.initState();
 
-    movieQuoteSubscription = RestaurantDocumentManager.instance.startListening(
+    restaurantSubscription = RestaurantDocumentManager.instance.startListening(
       widget.documentId,
       () {
         setState(() {});
@@ -46,15 +47,15 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   void dispose() {
     ratingTextController.dispose();
     commentTextController.dispose();
-    RestaurantDocumentManager.instance.stopListening(movieQuoteSubscription);
+    RestaurantDocumentManager.instance.stopListening(restaurantSubscription);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final bool showEditRestaurant =
-      RestaurantDocumentManager.instance.latestRestaurant != null &&
-      AuthManager.instance.uid.isNotEmpty;
+        RestaurantDocumentManager.instance.latestRestaurant != null &&
+            AuthManager.instance.uid.isNotEmpty;
 
     return Scaffold(
       appBar: AppBar(
@@ -127,7 +128,11 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showCreateReviewDialog(context);
+          if (AuthManager.instance.isSignedIn) {
+            showCreateReviewDialog(context);
+          } else {
+            showMustLogInDialog(context);
+          }
         },
         tooltip: 'Create',
         child: const Icon(Icons.add),
@@ -169,10 +174,11 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
               ),
               const Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text(
-                  "Rating must be between 1 and 5",
-                  style: TextStyle(color: Colors.red, fontStyle: FontStyle.italic, fontSize: 10)
-                ),
+                child: Text("Rating must be between 1 and 5",
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontStyle: FontStyle.italic,
+                        fontSize: 10)),
               )
             ],
           ),
@@ -192,11 +198,12 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
               ),
               child: const Text('Create'),
               onPressed: () {
-                double attemptedRating = double.parse(ratingTextController.text);
-                ratingInputError = attemptedRating>5 && attemptedRating>1;
-                if(!ratingInputError){
+                double attemptedRating =
+                    double.parse(ratingTextController.text);
+                ratingInputError = attemptedRating > 5 && attemptedRating > 1;
+                if (!ratingInputError) {
                   setState(() {
-                    ratingInputError=ratingInputError;
+                    ratingInputError = ratingInputError;
                     ReviewsCollectionManager.instance.add(
                         rating: attemptedRating,
                         comment: commentTextController.text,
@@ -286,17 +293,54 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
               onPressed: () {
                 setState(() {
                   RestaurantDocumentManager.instance.update(
-                    name: nameTextController.text,
-                    address: addressTextController.text,
-                    category: categoryTextController.text,
-                    averageRating: RestaurantDocumentManager.instance.latestRestaurant!.averageRating
-                  );
+                      name: nameTextController.text,
+                      address: addressTextController.text,
+                      category: categoryTextController.text,
+                      averageRating: RestaurantDocumentManager
+                          .instance.latestRestaurant!.averageRating);
                   nameTextController.text = "";
                   addressTextController.text = "";
                   categoryTextController.text = "";
-
                 });
                 Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> showMustLogInDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Login Required"),
+          content: const Text(
+              "You must be signed in to post.  Would you like to sign in now?"),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text("Go sign in"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return const LoginPage();
+                  },
+                ));
               },
             ),
           ],

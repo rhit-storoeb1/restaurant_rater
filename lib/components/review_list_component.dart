@@ -24,6 +24,7 @@ class ReviewList extends StatelessWidget {
           Review r = snapshot.data();
           return ReviewRowItem(
             r: r,
+            showRestName: false,
             onTap: AuthManager.instance.uid == r.authorUid
                 ? () async {
                     await Navigator.push(context,

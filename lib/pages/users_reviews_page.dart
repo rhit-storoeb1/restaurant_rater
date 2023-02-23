@@ -77,6 +77,7 @@ class _UserReviewsListPageState extends State<UserReviewsListPage> {
             Review r = snapshot.data();
             return ReviewRowItem(
               r: r,
+              showRestName: true,
               onTap: () async {
                 await Navigator.push(context,
                     MaterialPageRoute(builder: (BuildContext context) {
