@@ -77,12 +77,11 @@ class ReviewsCollectionManager {
   }
 
   //get all reviews for this restaurant
-  Query<Review> get allReviewsQuery => _ref
-          // .orderBy(Review_lastTouched, descending: true)
-          .withConverter<Review>(
-        fromFirestore: (snapshot, _) => Review.from(snapshot),
-        toFirestore: (review, _) => review.toMap(),
-      );
+  Query<Review> get allReviewsQuery =>
+      _ref.orderBy(Review_lastTouched, descending: true).withConverter<Review>(
+            fromFirestore: (snapshot, _) => Review.from(snapshot),
+            toFirestore: (review, _) => review.toMap(),
+          );
 
   Query<Review> reviewsForRestaurant(restName) {
     return allReviewsQuery.where(Review_restaurant, isEqualTo: restName);
