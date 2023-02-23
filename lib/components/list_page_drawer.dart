@@ -55,7 +55,7 @@ class ListPageDrawer extends StatelessWidget {
             title: const Text("Logout"),
             leading: const Icon(Icons.logout),
             onTap: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).popUntil((route) => route.isFirst);
               AuthManager.instance.signOut();
             },
           ),
