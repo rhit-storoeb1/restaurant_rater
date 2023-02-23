@@ -1,5 +1,3 @@
-//page that shows the list of reviews by current User
-
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:restaurant_rater/components/list_page_drawer.dart';
@@ -19,8 +17,6 @@ class UserReviewsListPage extends StatefulWidget {
 }
 
 class _UserReviewsListPageState extends State<UserReviewsListPage> {
-  //controller to select which category?
-
   UniqueKey? _loginObserverKey;
   UniqueKey? _logoutObserverKey;
 
@@ -37,9 +33,7 @@ class _UserReviewsListPageState extends State<UserReviewsListPage> {
   }
 
   void _showRestaurants() {
-    setState(() {
-      //todo: set flags here if needed
-    });
+    setState(() {});
   }
 
   @override
@@ -86,21 +80,7 @@ class _UserReviewsListPageState extends State<UserReviewsListPage> {
               },
             );
           }),
-      drawer: AuthManager.instance.isSignedIn
-          //todo: replace with drawer once created
-          ? const ListPageDrawer()
-          : null,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // if (AuthManager.instance.isSignedIn) {
-          //   //todo: show create new restaurant dialog
-          // } else {
-          //   //todo: show log in dialog
-          // }
-        },
-        tooltip: 'Add Restaurant',
-        child: const Icon(Icons.add),
-      ),
+      drawer: AuthManager.instance.isSignedIn ? const ListPageDrawer() : null,
     );
   }
 }

@@ -1,10 +1,4 @@
-//page that shows the list of restaurants in/around TH
-//ideas for features:
-// - list is searchable
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:restaurant_rater/components/list_page_drawer.dart';
 import 'package:restaurant_rater/managers/restaurants_collection_manager.dart';
@@ -26,7 +20,6 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
   final nameTextController = TextEditingController();
   final addressTextController = TextEditingController();
   final categoryTextController = TextEditingController();
-  //controller to select which category?
 
   UniqueKey? _loginObserverKey;
   UniqueKey? _logoutObserverKey;
@@ -44,15 +37,12 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
   }
 
   void _showRestaurants() {
-    setState(() {
-      //todo: set flags here if needed
-    });
+    setState(() {});
   }
 
   void dispose() {
     nameTextController.dispose();
     addressTextController.dispose();
-    //category selector
     AuthManager.instance.removeObserver(_loginObserverKey!);
     AuthManager.instance.removeObserver(_logoutObserverKey!);
   }
@@ -92,10 +82,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                   setState(() {});
                 });
           }),
-      drawer: AuthManager.instance.isSignedIn
-          //todo: replace with drawer once created
-          ? const ListPageDrawer()
-          : null,
+      drawer: AuthManager.instance.isSignedIn ? const ListPageDrawer() : null,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (AuthManager.instance.isSignedIn) {

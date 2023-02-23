@@ -1,14 +1,11 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_rater/components/review_list_component.dart';
 import 'package:restaurant_rater/managers/reviews_collection_manager.dart';
 
 import '../managers/auth_manager.dart';
 import '../managers/restaurant_document_manager.dart';
-import '../managers/restaurants_collection_manager.dart';
-import '../models/review.dart';
 import 'login_page.dart';
 
 class RestaurantDetailPage extends StatefulWidget {
@@ -65,15 +62,11 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
             visible: showEditRestaurant,
             child: IconButton(
               onPressed: () {
-                //todo: edit restaurant
                 showEditRestaurantDialog(context);
               },
               icon: const Icon(Icons.edit),
             ),
           ),
-          // const SizedBox(
-          //   width: 40.0,
-          // ),
         ],
       ),
       backgroundColor: Colors.grey[100],
@@ -390,7 +383,6 @@ class LabelledTextDisplay extends StatelessWidget {
                       content,
                       style: const TextStyle(
                         fontSize: 18.0,
-                        // fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),

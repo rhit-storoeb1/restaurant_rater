@@ -13,8 +13,6 @@ class ListPageDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
-        // Important: Remove any padding from the ListView.
-        // padding: EdgeInsets.zero,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           DrawerHeader(

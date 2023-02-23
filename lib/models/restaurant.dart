@@ -1,17 +1,4 @@
-//Restaurant Model
-// - Name
-// - Restaurant Category (static list to choose from)
-// - Address
-//    - Distance from Rose (? - minutes and/or miles)
-//    - If this is too hard we could just generate a link to google maps that shows directions from Rose to the restaurant
-// - average rating out of 5 stars
-// - Link to list of ratings
-
-// I think the simplest action is we let users add a restaurant if it doesn't have have reviews yet
-// and we trust the users to write accurate information and don't handle edit/delete.
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:restaurant_rater/models/review.dart';
 import 'firestore_model_utils.dart';
 
 const String RestaurantsCollectionPath = "Restaurants";
@@ -26,7 +13,6 @@ class Restaurant {
   String address;
   String category;
   double averageRating;
-  //doesn't need lastTouched, authorUid
 
   Restaurant({
     this.documentId,

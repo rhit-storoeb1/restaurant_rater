@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:restaurant_rater/managers/restaurant_document_manager.dart';
 import 'package:restaurant_rater/managers/reviews_collection_manager.dart';
 
-import '../models/restaurant.dart';
 import '../models/review.dart';
 
 class ReviewDocumentManager {
@@ -47,7 +46,8 @@ class ReviewDocumentManager {
             name: RestaurantDocumentManager.instance.latestRestaurant!.name,
             address:
                 RestaurantDocumentManager.instance.latestRestaurant!.address,
-            category: RestaurantDocumentManager.instance.latestRestaurant!.category,
+            category:
+                RestaurantDocumentManager.instance.latestRestaurant!.category,
             averageRating: double.parse(rating.toStringAsFixed(1)));
       }, onError: (e) => print("error creating"));
     });

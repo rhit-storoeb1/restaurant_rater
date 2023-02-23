@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:restaurant_rater/managers/reviews_collection_manager.dart';
 import '../models/restaurant.dart';
 
 class RestaurantsCollectionManager {
@@ -60,10 +59,4 @@ class RestaurantsCollectionManager {
   Query<Restaurant> allRestaurantsFromCategory(String category) {
     return allRestaurants.where(Restaurants_category, isEqualTo: category);
   }
-
-  //TODO: write method that recalculates the average rating of a restaurant
-  //This will get called when the ReviewsCollectionManager adds a new Review
-
-  //TODO: write query to sort all by rating (will require getting the average rating from all reviews)
-  //We will need to make sure that whenever
 }

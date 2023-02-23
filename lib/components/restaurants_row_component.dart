@@ -1,19 +1,11 @@
-//Will show data from Restaurant
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../models/restaurant.dart';
 
 class RestaurantRowItem extends StatelessWidget {
   final Restaurant r;
   final Function() onTap;
-  const RestaurantRowItem({
-    required this.r,
-    required this.onTap,
-    super.key
-    });
+  const RestaurantRowItem({required this.r, required this.onTap, super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,8 +1,4 @@
-//Login page
-//ideally we could use rose login but that doesn't exist on this platform
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:restaurant_rater/pages/email_login_page.dart';
 
 class LoginPage extends StatefulWidget {

@@ -80,9 +80,6 @@ class _ReviewDetailPageState extends State<ReviewDetailPage> {
               icon: const Icon(Icons.delete),
             ),
           ),
-          // const SizedBox(
-          //   width: 40.0,
-          // ),
         ],
       ),
       backgroundColor: Colors.grey[100],
@@ -156,7 +153,6 @@ class LabelledTextDisplay extends StatelessWidget {
                       content,
                       style: const TextStyle(
                         fontSize: 18.0,
-                        // fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),

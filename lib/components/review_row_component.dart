@@ -1,5 +1,3 @@
-//Will show data from Restaurant
-
 import 'package:flutter/material.dart';
 
 import '../models/review.dart';
@@ -33,7 +31,6 @@ class ReviewRowItem extends StatelessWidget {
             ),
             subtitle: Text(
               r.comment,
-              //r.reviews[0].get().toString(),
               overflow: TextOverflow.ellipsis,
             ),
           ),

@@ -6,8 +6,6 @@ import 'package:restaurant_rater/components/review_row_component.dart';
 import 'package:restaurant_rater/managers/auth_manager.dart';
 import 'package:restaurant_rater/models/review.dart';
 
-import '../managers/restaurants_collection_manager.dart';
-import '../managers/reviews_collection_manager.dart';
 import '../pages/review_detail_page.dart';
 
 class ReviewList extends StatelessWidget {
