@@ -21,6 +21,7 @@ class Review {
   String authorUid;
   double rating;
   String comment;
+  String restName;
   Timestamp lastTouched;
 
   Review(
@@ -28,6 +29,7 @@ class Review {
       required this.authorUid,
       required this.rating,
       required this.comment,
+      required this.restName,
       required this.lastTouched});
 
   Review.from(DocumentSnapshot doc)
@@ -37,6 +39,8 @@ class Review {
                 FirestoreModelUtils.getStringField(doc, Review_authorUid),
             rating: FirestoreModelUtils.getDoubleField(doc, Review_rating),
             comment: FirestoreModelUtils.getStringField(doc, Review_comment),
+            restName:
+                FirestoreModelUtils.getStringField(doc, Review_restaurant),
             lastTouched:
                 FirestoreModelUtils.getTimestampField(doc, Review_lastTouched));
 

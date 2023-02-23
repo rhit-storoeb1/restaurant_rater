@@ -209,32 +209,6 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                       restName: RestaurantDocumentManager
                               .instance.latestRestaurant?.name ??
                           "");
-
-                  var reviewDocs = ReviewsCollectionManager.instance
-                      .reviewsForRestaurant(RestaurantDocumentManager
-                          .instance.latestRestaurant?.name);
-
-                  reviewDocs.get().then((value) {
-                    var rating = 0.0;
-                    ReviewsCollectionManager.instance.startListening(() {
-                      var reviews =
-                          ReviewsCollectionManager.instance.latestReviews;
-                      print(reviews.length);
-                      for (var r in reviews) {
-                        rating += r.rating;
-                      }
-                      rating = rating / reviews.length;
-
-                      RestaurantDocumentManager.instance.update(
-                          name: RestaurantDocumentManager
-                              .instance.latestRestaurant!.name,
-                          address: RestaurantDocumentManager
-                              .instance.latestRestaurant!.address,
-                          averageRating:
-                              double.parse(rating.toStringAsFixed(1)));
-                    });
-                  }, onError: (e) => print("error creating"));
-
                   ratingTextController.text = "";
                   commentTextController.text = "";
                 });

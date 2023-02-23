@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutterfire_ui/firestore.dart';
+import 'package:restaurant_rater/components/list_page_drawer.dart';
 import 'package:restaurant_rater/managers/restaurants_collection_manager.dart';
+import 'package:restaurant_rater/pages/login_page.dart';
 import 'package:restaurant_rater/pages/restaurant_detail_page.dart';
 
 import '../components/restaurants_row_component.dart';
@@ -67,8 +69,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (BuildContext context) {
-                      return const Placeholder();
-                      //todo: replace with login page
+                      return const LoginPage();
                     }));
                   },
                   tooltip: "Log in",
@@ -93,7 +94,7 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
           }),
       drawer: AuthManager.instance.isSignedIn
           //todo: replace with drawer once created
-          ? const Placeholder()
+          ? const ListPageDrawer()
           : null,
       floatingActionButton: FloatingActionButton(
         onPressed: () {

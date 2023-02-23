@@ -1,6 +1,7 @@
 //manage the list of ratings shown on a Restaurant ratings list page
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:restaurant_rater/managers/restaurant_document_manager.dart';
 import 'package:restaurant_rater/models/restaurant.dart';
 import 'dart:async';
 import '../models/review.dart';
@@ -45,19 +46,35 @@ class ReviewsCollectionManager {
       {required double rating,
       required String comment,
       required String restName}) {
-    return _ref
-        .add({
-          Review_rating: rating,
-          Review_comment: comment,
-          Review_restaurant: restName,
-          Review_lastTouched: Timestamp.now(),
-          Review_authorUid: AuthManager.instance.uid
-        })
-        .then((DocumentReference docRef) => {
-              print("Review added!")
-              //TODO: call the method to update the average rating of the restaurant here
-            })
-        .catchError((error) => print("Failed to add review: $error"));
+    return _ref.add({
+      Review_rating: rating,
+      Review_comment: comment,
+      Review_restaurant: restName,
+      Review_lastTouched: Timestamp.now(),
+      Review_authorUid: AuthManager.instance.uid
+    }).then((DocumentReference docRef) {
+      print("Review added!");
+      var reviewDocs = ReviewsCollectionManager.instance.reviewsForRestaurant(
+          RestaurantDocumentManager.instance.latestRestaurant?.name);
+
+      reviewDocs.get().then((value) {
+        var rating = 0.0;
+        ReviewsCollectionManager.instance.startListening(() {
+          var reviews = ReviewsCollectionManager.instance.latestReviews;
+          print(reviews.length);
+          for (var r in reviews) {
+            rating += r.rating;
+          }
+          rating = rating / reviews.length;
+
+          RestaurantDocumentManager.instance.update(
+              name: RestaurantDocumentManager.instance.latestRestaurant!.name,
+              address:
+                  RestaurantDocumentManager.instance.latestRestaurant!.address,
+              averageRating: double.parse(rating.toStringAsFixed(1)));
+        });
+      }, onError: (e) => print("error creating"));
+    }).catchError((error) => print("Failed to add review: $error"));
   }
 
   //get all reviews for this restaurant
@@ -70,6 +87,11 @@ class ReviewsCollectionManager {
 
   Query<Review> reviewsForRestaurant(restName) {
     return allReviewsQuery.where(Review_restaurant, isEqualTo: restName);
+  }
+
+  Query<Review> reviewsForUser() {
+    return allReviewsQuery.where(Review_authorUid,
+        isEqualTo: AuthManager.instance.uid);
   }
 
   //note: no myReviewsQuery is needed for now
