@@ -26,6 +26,8 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   final addressTextController = TextEditingController();
   final categoryTextController = TextEditingController();
 
+  bool ratingInputError = false;
+
   StreamSubscription? movieQuoteSubscription;
 
   @override
@@ -165,6 +167,13 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                   ),
                 ),
               ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  "Rating must be between 1 and 5",
+                  style: TextStyle(color: Colors.red, fontStyle: FontStyle.italic, fontSize: 10)
+                ),
+              )
             ],
           ),
           actions: <Widget>[
@@ -183,17 +192,22 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
               ),
               child: const Text('Create'),
               onPressed: () {
-                setState(() {
-                  ReviewsCollectionManager.instance.add(
-                      rating: double.parse(ratingTextController.text),
-                      comment: commentTextController.text,
-                      restName: RestaurantDocumentManager
-                              .instance.latestRestaurant?.name ??
-                          "");
-                  ratingTextController.text = "";
-                  commentTextController.text = "";
-                });
-                Navigator.of(context).pop();
+                double attemptedRating = double.parse(ratingTextController.text);
+                ratingInputError = attemptedRating>5;
+                if(!ratingInputError){
+                  setState(() {
+                    ratingInputError=ratingInputError;
+                    ReviewsCollectionManager.instance.add(
+                        rating: attemptedRating,
+                        comment: commentTextController.text,
+                        restName: RestaurantDocumentManager
+                                .instance.latestRestaurant?.name ??
+                            "");
+                    ratingTextController.text = "";
+                    commentTextController.text = "";
+                  });
+                  Navigator.of(context).pop();
+                }
               },
             ),
           ],
