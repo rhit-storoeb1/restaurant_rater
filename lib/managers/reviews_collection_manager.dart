@@ -69,6 +69,8 @@ class ReviewsCollectionManager {
             name: RestaurantDocumentManager.instance.latestRestaurant!.name,
             address:
                 RestaurantDocumentManager.instance.latestRestaurant!.address,
+            category:
+                RestaurantDocumentManager.instance.latestRestaurant!.category,
             averageRating: double.parse(rating.toStringAsFixed(1)));
       }, onError: (e) => print("error creating"));
     }).catchError((error) => print("Failed to add review: $error"));

@@ -22,6 +22,10 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
   final ratingTextController = TextEditingController();
   final commentTextController = TextEditingController();
 
+  final nameTextController = TextEditingController();
+  final addressTextController = TextEditingController();
+  final categoryTextController = TextEditingController();
+
   StreamSubscription? movieQuoteSubscription;
 
   @override
@@ -46,45 +50,22 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final bool showEditDelete =
-    //     RestaurantDocumentManager.instance.latestMovieQuote != null &&
-    //         AuthManager.instance.uid.isNotEmpty &&
-    //         AuthManager.instance.uid ==
-    //             MovieQuoteDocumentManager.instance.latestMovieQuote!.authorUid;
-    final bool showEditDelete = false;
+    final bool showEditRestaurant =
+      RestaurantDocumentManager.instance.latestRestaurant != null &&
+      AuthManager.instance.uid.isNotEmpty;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("RoseRestaurantRater"),
         actions: [
           Visibility(
-            visible: showEditDelete,
+            visible: showEditRestaurant,
             child: IconButton(
               onPressed: () {
-                final justDeletedQuote =
-                    RestaurantDocumentManager.instance.latestRestaurant!.name;
-                final justDeletedMovie = RestaurantDocumentManager
-                    .instance.latestRestaurant!.address;
-
-                RestaurantDocumentManager.instance.delete();
-
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text('Quote Deleted'),
-                    action: SnackBarAction(
-                      label: 'Undo',
-                      onPressed: () {
-                        // RestaurantsCollectionManager.instance.add(
-                        //   quote: justDeletedQuote,
-                        //   movie: justDeletedMovie,
-                        // );
-                      },
-                    ),
-                  ),
-                );
-                Navigator.pop(context);
+                //todo: edit restaurant
+                showEditRestaurantDialog(context);
               },
-              icon: const Icon(Icons.delete),
+              icon: const Icon(Icons.edit),
             ),
           ),
           // const SizedBox(
@@ -211,6 +192,95 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                           "");
                   ratingTextController.text = "";
                   commentTextController.text = "";
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> showEditRestaurantDialog(BuildContext context) {
+    nameTextController.text =
+        RestaurantDocumentManager.instance.latestRestaurant?.name ?? "";
+    addressTextController.text =
+        RestaurantDocumentManager.instance.latestRestaurant?.address ?? "";
+    categoryTextController.text =
+        RestaurantDocumentManager.instance.latestRestaurant?.category ?? "";
+
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Edit this Restaurant'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4.0),
+                child: TextFormField(
+                  controller: nameTextController,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'Name:',
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4.0),
+                child: TextFormField(
+                  controller: addressTextController,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'Address:',
+                  ),
+                ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4.0),
+                child: TextFormField(
+                  controller: categoryTextController,
+                  decoration: const InputDecoration(
+                    border: UnderlineInputBorder(),
+                    labelText: 'Category:',
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Update'),
+              onPressed: () {
+                setState(() {
+                  RestaurantDocumentManager.instance.update(
+                    name: nameTextController.text,
+                    address: addressTextController.text,
+                    category: categoryTextController.text,
+                    averageRating: RestaurantDocumentManager.instance.latestRestaurant!.averageRating
+                  );
+                  nameTextController.text = "";
+                  addressTextController.text = "";
+                  categoryTextController.text = "";
+
                 });
                 Navigator.of(context).pop();
               },

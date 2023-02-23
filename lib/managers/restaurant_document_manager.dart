@@ -31,6 +31,7 @@ class RestaurantDocumentManager {
     required String name,
     required String address,
     required double averageRating,
+    required String category,
   }) {
     if (latestRestaurant == null) {
       return;
@@ -39,6 +40,7 @@ class RestaurantDocumentManager {
       Restaurants_name: name,
       Restaurants_address: address,
       Restaurants_averageRating: averageRating,
+      Restaurants_category: category,
     }).catchError((error) => print("Failed to update the movie quote: $error"));
   }
 

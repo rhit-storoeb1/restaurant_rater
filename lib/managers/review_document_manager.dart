@@ -47,6 +47,7 @@ class ReviewDocumentManager {
             name: RestaurantDocumentManager.instance.latestRestaurant!.name,
             address:
                 RestaurantDocumentManager.instance.latestRestaurant!.address,
+            category: RestaurantDocumentManager.instance.latestRestaurant!.category,
             averageRating: double.parse(rating.toStringAsFixed(1)));
       }, onError: (e) => print("error creating"));
     });

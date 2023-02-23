@@ -98,12 +98,11 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
           : null,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showCreateRestaurantDialog(context);
-          // if (AuthManager.instance.isSignedIn) {
-          //   //todo: show create new restaurant dialog
-          // } else {
-          //   //todo: show log in dialog
-          // }
+          if (AuthManager.instance.isSignedIn) {
+            showCreateRestaurantDialog(context);
+          } else {
+            showMustLogInDialog(context);
+          }
         },
         tooltip: 'Add Restaurant',
         child: const Icon(Icons.add),
@@ -182,6 +181,44 @@ class _RestaurantListPageState extends State<RestaurantListPage> {
                   categoryTextController.text = "";
                 });
                 Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> showMustLogInDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Login Required"),
+          content: const Text(
+              "You must be signed in to post.  Would you like to sign in now?"),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text("Go sign in"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return const LoginPage();
+                  },
+                ));
               },
             ),
           ],
