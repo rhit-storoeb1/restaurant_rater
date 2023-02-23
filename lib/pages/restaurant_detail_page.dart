@@ -193,7 +193,7 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
               child: const Text('Create'),
               onPressed: () {
                 double attemptedRating = double.parse(ratingTextController.text);
-                ratingInputError = attemptedRating>5;
+                ratingInputError = attemptedRating>5 && attemptedRating>1;
                 if(!ratingInputError){
                   setState(() {
                     ratingInputError=ratingInputError;
