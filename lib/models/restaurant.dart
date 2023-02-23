@@ -18,7 +18,6 @@ const String RestaurantsCollectionPath = "Restaurants";
 const String Restaurants_name = "name";
 const String Restaurants_address = "address";
 const String Restaurants_category = "category";
-const String Restaurants_reviewsList = "reviews";
 const String Restaurants_averageRating = "averageRating";
 
 class Restaurant {
@@ -26,8 +25,6 @@ class Restaurant {
   String name;
   String address;
   String category;
-  // List<Review> reviews;
-  List reviews;
   double averageRating;
   //doesn't need lastTouched, authorUid
 
@@ -36,7 +33,6 @@ class Restaurant {
     required this.name,
     required this.address,
     required this.category,
-    required this.reviews,
     required this.averageRating,
   });
 
@@ -47,8 +43,6 @@ class Restaurant {
           address: FirestoreModelUtils.getStringField(doc, Restaurants_address),
           category:
               FirestoreModelUtils.getStringField(doc, Restaurants_category),
-          reviews:
-              FirestoreModelUtils.getArrayField(doc, Restaurants_reviewsList),
           averageRating: FirestoreModelUtils.getDoubleField(
               doc, Restaurants_averageRating),
         );
@@ -58,7 +52,6 @@ class Restaurant {
       Restaurants_name: name,
       Restaurants_address: address,
       Restaurants_category: category,
-      Restaurants_reviewsList: reviews,
       Restaurants_averageRating: averageRating,
     };
   }

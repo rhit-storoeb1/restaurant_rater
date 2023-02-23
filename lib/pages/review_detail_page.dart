@@ -50,17 +50,8 @@ class _ReviewDetailPageState extends State<ReviewDetailPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Movie Quotes"),
+        title: const Text("RoseRestaurantRater"),
         actions: [
-          Visibility(
-            visible: showEditDelete,
-            child: IconButton(
-              onPressed: () {
-                showEditQuoteDialog(context);
-              },
-              icon: const Icon(Icons.edit),
-            ),
-          ),
           Visibility(
             visible: showEditDelete,
             child: IconButton(
@@ -76,7 +67,7 @@ class _ReviewDetailPageState extends State<ReviewDetailPage> {
 
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text('Quote Deleted'),
+                    content: const Text('Review Deleted'),
                     action: SnackBarAction(
                       label: 'Undo',
                       onPressed: () {
@@ -105,93 +96,27 @@ class _ReviewDetailPageState extends State<ReviewDetailPage> {
         child: Column(
           children: [
             LabelledTextDisplay(
+              title: "Restaurant:",
+              content:
+                  ReviewDocumentManager.instance.latestReview?.restName ?? "",
+              iconData: Icons.fastfood,
+            ),
+            LabelledTextDisplay(
               title: "Rating:",
               content: ReviewDocumentManager.instance.latestReview?.rating
                       .toString() ??
                   "",
-              iconData: Icons.format_quote_outlined,
+              iconData: Icons.star,
             ),
             LabelledTextDisplay(
               title: "Comment:",
               content:
                   ReviewDocumentManager.instance.latestReview?.comment ?? "",
-              iconData: Icons.movie_filter_outlined,
+              iconData: Icons.format_quote_outlined,
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Future<void> showEditQuoteDialog(BuildContext context) {
-    quoteTextController.text =
-        ReviewDocumentManager.instance.latestReview?.rating.toString() ?? "";
-    movieTextController.text =
-        ReviewDocumentManager.instance.latestReview?.comment ?? "";
-
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Edit this Movie Quote'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4.0),
-                child: TextFormField(
-                  controller: quoteTextController,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Quote:',
-                  ),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4.0),
-                child: TextFormField(
-                  controller: movieTextController,
-                  decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Movie:',
-                  ),
-                ),
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Update'),
-              onPressed: () {
-                setState(() {
-                  // ReviewDocumentManager.instance.update(
-                  //   quote: quoteTextController.text,
-                  //   movie: movieTextController.text,
-                  // );
-                  quoteTextController.text = "";
-                  movieTextController.text = "";
-                });
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

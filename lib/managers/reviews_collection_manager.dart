@@ -53,26 +53,23 @@ class ReviewsCollectionManager {
       Review_lastTouched: Timestamp.now(),
       Review_authorUid: AuthManager.instance.uid
     }).then((DocumentReference docRef) {
-      print("Review added!");
+      // Calculate resulting average rating
       var reviewDocs = ReviewsCollectionManager.instance.reviewsForRestaurant(
           RestaurantDocumentManager.instance.latestRestaurant?.name);
 
       reviewDocs.get().then((value) {
         var rating = 0.0;
-        ReviewsCollectionManager.instance.startListening(() {
-          var reviews = ReviewsCollectionManager.instance.latestReviews;
-          print(reviews.length);
-          for (var r in reviews) {
-            rating += r.rating;
-          }
-          rating = rating / reviews.length;
+        var reviews = value.docs;
+        for (var r in reviews) {
+          rating += r.data().rating;
+        }
+        rating = rating / reviews.length;
 
-          RestaurantDocumentManager.instance.update(
-              name: RestaurantDocumentManager.instance.latestRestaurant!.name,
-              address:
-                  RestaurantDocumentManager.instance.latestRestaurant!.address,
-              averageRating: double.parse(rating.toStringAsFixed(1)));
-        });
+        RestaurantDocumentManager.instance.update(
+            name: RestaurantDocumentManager.instance.latestRestaurant!.name,
+            address:
+                RestaurantDocumentManager.instance.latestRestaurant!.address,
+            averageRating: double.parse(rating.toStringAsFixed(1)));
       }, onError: (e) => print("error creating"));
     }).catchError((error) => print("Failed to add review: $error"));
   }

@@ -17,7 +17,8 @@ class RestaurantsCollectionManager {
 
   //since we don't have a lastTouched for restaurants, sort by name
   //we would sort by other things if wanted
-  StreamSubscription startListening(Function() observer, {bool isFilteredForMine = false}) {
+  StreamSubscription startListening(Function() observer,
+      {bool isFilteredForMine = false}) {
     Query query = _ref.orderBy(Restaurants_name, descending: true);
     return query.snapshots().listen((QuerySnapshot querySnapshot) {
       restaurants =
@@ -40,7 +41,6 @@ class RestaurantsCollectionManager {
           Restaurants_name: name,
           Restaurants_address: address,
           Restaurants_category: category,
-          Restaurants_reviewsList: [],
           Restaurants_averageRating: 0.0,
         })
         .then((DocumentReference docRef) =>
@@ -58,13 +58,12 @@ class RestaurantsCollectionManager {
 
   //query to get all restaurants from a certain category. still sorts by name
   Query<Restaurant> allRestaurantsFromCategory(String category) {
-    return allRestaurants
-      .where(Restaurants_category, isEqualTo: category);
+    return allRestaurants.where(Restaurants_category, isEqualTo: category);
   }
 
   //TODO: write method that recalculates the average rating of a restaurant
   //This will get called when the ReviewsCollectionManager adds a new Review
 
   //TODO: write query to sort all by rating (will require getting the average rating from all reviews)
-  //We will need to make sure that whenever 
+  //We will need to make sure that whenever
 }

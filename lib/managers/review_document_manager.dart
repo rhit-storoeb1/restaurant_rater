@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:restaurant_rater/managers/restaurant_document_manager.dart';
+import 'package:restaurant_rater/managers/reviews_collection_manager.dart';
 
 import '../models/restaurant.dart';
 import '../models/review.dart';
@@ -28,22 +30,25 @@ class ReviewDocumentManager {
   void stopListening(StreamSubscription? subscription) =>
       subscription?.cancel();
 
-  // void update({
-  //   required String name,
-  //   required String address,
-  //   required double averageRating,
-  // }) {
-  //   if (latestReview == null) {
-  //     return;
-  //   }
-  //   _ref.doc(latestReview!.documentId!).update({
-  //     Restaurants_name: name,
-  //     Restaurants_address: address,
-  //     Restaurants_averageRating: averageRating,
-  //   }).catchError((error) => print("Failed to update the movie quote: $error"));
-  // }
-
   Future<void> delete() {
-    return _ref.doc(latestReview?.documentId!).delete();
+    return _ref.doc(latestReview?.documentId!).delete().then((e) {
+      var reviewDocs = ReviewsCollectionManager.instance.reviewsForRestaurant(
+          RestaurantDocumentManager.instance.latestRestaurant?.name);
+
+      reviewDocs.get().then((value) {
+        var rating = 0.0;
+        var reviews = value.docs;
+        for (var r in reviews) {
+          rating += r.data().rating;
+        }
+        rating = rating / reviews.length;
+
+        RestaurantDocumentManager.instance.update(
+            name: RestaurantDocumentManager.instance.latestRestaurant!.name,
+            address:
+                RestaurantDocumentManager.instance.latestRestaurant!.address,
+            averageRating: double.parse(rating.toStringAsFixed(1)));
+      }, onError: (e) => print("error creating"));
+    });
   }
 }
