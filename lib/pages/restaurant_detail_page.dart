@@ -7,6 +7,7 @@ import 'package:restaurant_rater/managers/reviews_collection_manager.dart';
 import '../managers/auth_manager.dart';
 import '../managers/restaurant_document_manager.dart';
 import 'login_page.dart';
+import 'dart:html' as html;
 
 class RestaurantDetailPage extends StatefulWidget {
   final String documentId;
@@ -81,12 +82,16 @@ class _RestaurantDetailPageState extends State<RestaurantDetailPage> {
                       "",
               iconData: Icons.format_quote_outlined,
             ),
-            LabelledTextDisplay(
-              title: "Address:",
-              content: RestaurantDocumentManager
-                      .instance.latestRestaurant?.address ??
-                  "",
-              iconData: Icons.home,
+            InkWell(
+              child: LabelledTextDisplay(
+                title: "Address (Click to view on Google Maps)",
+                content: RestaurantDocumentManager.instance.latestRestaurant?.address ?? "",
+                iconData: Icons.home,
+              ),
+              onTap: () {
+                var encodedAddr = Uri.encodeComponent(RestaurantDocumentManager.instance.latestRestaurant?.address ?? "");
+                html.window.open("https://www.google.com/maps/search/?api=1&query=$encodedAddr", 'new tab');
+              }
             ),
             LabelledTextDisplay(
               title: "Category:",
@@ -352,7 +357,7 @@ class LabelledTextDisplay extends StatelessWidget {
     super.key,
     required this.title,
     required this.content,
-    required this.iconData,
+    required this.iconData, 
   });
 
   @override
